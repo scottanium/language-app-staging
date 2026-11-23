@@ -31,13 +31,13 @@ function exportSave() {
   const payload = {
     ...state.save,
     exportedAt: new Date().toISOString(),
-    app: "allonsy"
+    app: "language-app"
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "allonsy-save.json";
+  link.download = "language-app-save.json";
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -79,7 +79,7 @@ function renderHome() {
   return `
     <header class="brand">
       <div class="eyebrow">French for beginners</div>
-      <h1>Allons-y</h1>
+      <h1>Language App</h1>
       <p>Flashcards, listening, and a quiz for English speakers — right on your phone.</p>
     </header>
     <div class="stats-row">

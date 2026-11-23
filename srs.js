@@ -3,7 +3,8 @@
 /* Allons-y — Learn French. Vanilla JS, no build step. */
 "use strict";
 
-var STORAGE_KEY = (window.AllonsyConfig && window.AllonsyConfig.STORAGE_KEY) || "allonsy-v1";
+var STORAGE_KEY = (window.AllonsyConfig && window.AllonsyConfig.STORAGE_KEY) || "language-app-v1";
+var OLD_STORAGE_KEY = (window.AllonsyConfig && window.AllonsyConfig.OLD_STORAGE_KEY) || "allonsy-v1";
 var TZ = (window.AllonsyConfig && window.AllonsyConfig.TZ) || "America/Indianapolis";
 var DAILY_GOAL_DEFAULT = (window.AllonsyConfig && window.AllonsyConfig.DAILY_GOAL_DEFAULT) || 10;
 var QUIZ_LENGTH = (window.AllonsyConfig && window.AllonsyConfig.QUIZ_LENGTH) || 10;
@@ -47,8 +48,23 @@ function defaultSave() {
   };
 }
 
+function migrateSaveIfNeeded() {
+  // New URL, same github.io origin: old "allonsy-*" keys are still readable.
+  // Copy once into the new key and leave the old key in place.
+  try {
+    if (localStorage.getItem(STORAGE_KEY)) return false;
+    var oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
+    if (!oldRaw) return false;
+    localStorage.setItem(STORAGE_KEY, oldRaw);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function loadSave() {
   try {
+    migrateSaveIfNeeded();
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultSave();
     const parsed = JSON.parse(raw);

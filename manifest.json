@@ -1,6 +1,6 @@
 {
-  "name": "Allons-y — Learn French",
-  "short_name": "Allons-y",
+  "name": "Language App",
+  "short_name": "Language App",
   "description": "A simple French tutor for English speakers. Flashcards, quizzes, and audio, all on your phone.",
   "start_url": "./index.html",
   "scope": "./",
